@@ -5,6 +5,10 @@ class Piece
     @color = color
   end
 
+  def to_s
+    @tag
+  end
+
 
 
 

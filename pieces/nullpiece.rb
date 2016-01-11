@@ -4,6 +4,7 @@ class NullPiece < Piece
 
   def initialize
     @color = nil
+    @tag = ' '
   end
 
 end
