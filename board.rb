@@ -1,15 +1,17 @@
+require_relative "pieces_manifest"
+
 class Board
+  attr_reader :grid
 
-  PIECES = [Rook.new,
-            Knight.new,
-            Bishop.new,
-            Queen.new,
-            King.new,
-            Bishop.new,
-            Knight.new,
-            Rook.new]
+  PIECES = [Rook,
+            Knight,
+            Bishop,
+            King,
+            Queen,
+            Bishop,
+            Knight,
+            Rook]
 
-  PAWNS = Array.new(8) { Pawn.new }
 
 
   def initialize
@@ -18,9 +20,28 @@ class Board
   end
 
   def pop_board
-    @grid[0] = PIECES.dup
-    @grid[1] = PAWNS.dup
-    @grid[6] = PAWNS.dup
-    @grid[7] = PIECES.dup
+    @grid[0].each_index do |i|
+      grid[0][i] = PIECES[i].new("black")
+    end
+
+    @grid[7].each_index do |i|
+      grid[7][i] = PIECES[i].new("white")
+    end
+
+    @grid[1].each_index { |i | grid[1][i] = Pawn.new("black") }
+    @grid[6].each_index { |i | grid[6][i] = Pawn.new("white") }
+
+
   end
+
+  def [](pos)
+    row,col = pos
+    @grid[row][col]
+  end
+
+  def []=(pos, value)
+    row,col = pos
+    @grid[row][col] = value
+  end
+
 end
