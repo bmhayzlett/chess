@@ -16,7 +16,6 @@ class Board
 
   def initialize
     @grid = Array.new(8) { Array.new(8) {NullPiece.new}}
-    pop_board
   end
 
   def pop_board

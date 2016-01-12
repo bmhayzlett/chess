@@ -36,13 +36,13 @@ attr_reader :cursor
       graphic = piece.to_s + " "
 
       if (row_num + col_num).even?
-        graphic = graphic.on_black
+        graphic = graphic.on_cyan
       else
         graphic = graphic.on_red
       end
 
       if [row_num, col_num] == @cursor
-        graphic = graphic.on_blue
+        graphic = graphic.on_yellow
       end
 
       render_string << graphic

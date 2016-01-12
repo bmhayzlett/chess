@@ -8,8 +8,9 @@ class GamePlay
 
   extend CursorInput
 
-  def initialize(board = Board.new)
-    @board = board
+  def initialize
+    @board = Board.new
+    @board.pop_board
     @display = Display.new
     @won = false
     @selected_piece = nil
