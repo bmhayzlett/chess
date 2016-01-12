@@ -21,15 +21,15 @@ class Board
 
   def pop_board
     @grid[0].each_index do |i|
-      grid[0][i] = PIECES[i].new("black")
+      grid[0][i] = PIECES[i].new(:black)
     end
 
     @grid[7].each_index do |i|
-      grid[7][i] = PIECES[i].new("white")
+      grid[7][i] = PIECES[i].new(:white)
     end
 
-    @grid[1].each_index { |i | grid[1][i] = Pawn.new("black") }
-    @grid[6].each_index { |i | grid[6][i] = Pawn.new("white") }
+    @grid[1].each_index { |i | grid[1][i] = Pawn.new(:black) }
+    @grid[6].each_index { |i | grid[6][i] = Pawn.new(:white) }
 
 
   end
