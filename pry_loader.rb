@@ -12,3 +12,5 @@ load 'gameplay.rb'
 load 'piece.rb'
 
 load 'pieces_manifest.rb'
+load 'cursor_input.rb'
+ 
