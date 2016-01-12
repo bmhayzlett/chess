@@ -3,6 +3,8 @@ require "io/console"
 
 class Display
 
+attr_reader :cursor
+
   MOVE_VECTORS = {
     left: [0, -1],
     right: [0, 1],
@@ -22,7 +24,7 @@ class Display
       render_string << "\n"
     end
 
-    system("clear")
+    # system("clear")
     puts "WELCOME TO CHESS"
     puts render_string
     puts "Arrow keys, WASD to move, space or enter to confirm."

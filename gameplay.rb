@@ -9,23 +9,29 @@ class GamePlay
   def initialize(board = Board.new)
     @board = board
     @display = Display.new
-
+    @won = false
   end
 
-  def game_input
-    until won?
+  def run
+    until @won
       @display.render_board(@board)
       input = self.class.get_input
       handle_command(input)
     end
   end
 
+  def inspect_piece(position)
+    puts "#{@board[position]} #{@board[position].color}"
+  end
+
   def handle_command(command)
+
     case command
     when :exit
-      exit 0
+      @won = true
     when :enter
-      # @cursor_pos
+      position = @display.cursor
+      inspect_piece(position)
     when :left, :right, :up, :down
       @display.move_cursor(command)
       nil
@@ -34,8 +40,5 @@ class GamePlay
     end
 end
 
-  def won?
-    false
-  end
 
 end
