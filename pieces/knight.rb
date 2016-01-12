@@ -2,16 +2,11 @@ require_relative "../piece"
 
 class Knight < Piece
 
-  def self.tag
-    '♞'
-  end
-
-  def self.max_steps
-    [1,1]
-  end
-
-  def self.directions
-    [:k]
+  def initialize(color, position = nil)
+    @tag = '♞'
+    @max_steps = [1, 1]
+    @directions =[:k]
+    super(color, position)
   end
 
 end

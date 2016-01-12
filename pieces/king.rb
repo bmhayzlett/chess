@@ -2,17 +2,11 @@ require_relative "../piece"
 
 class King < Piece
 
-  def self.tag
-    '♚'
+  def initialize(color, position = nil)
+    @tag = '♚'
+    @max_steps = [1, 1]
+    @directions =[:x, :+]
+    super(color, position)
   end
-
-  def self.max_steps
-    [1, 1]
-  end
-
-  def self.directions
-    [:x, :+]
-  end
-
 
 end

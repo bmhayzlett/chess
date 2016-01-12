@@ -16,26 +16,19 @@ class Piece
   def initialize(color, position = nil)
     @position = position
     @color = color
-    @tag = self.class.tag
     if @color == :white
       @tag = @tag.white
     else
       @tag = @tag.black
     end
-    @max_move_step, @max_capture_step = self.class.max_steps
+    @max_move_step, @max_capture_step = @max_steps
   end
 
-  def self.big_moves
-    MOVES
-  end
 
   def to_s
     @tag
   end
 
-  def self.capture_directions
-    nil
-  end
 
   def move(position)
 
@@ -94,9 +87,9 @@ class Piece
 
   def check_for_move(board, capture)
     if capture
-      direction_symbols = self.class.capture_directions || self.class.directions
+      direction_symbols = @capture_directions || @directions
     else
-      direction_symbols = self.class.directions
+      direction_symbols = @directions
     end
 
     directions = []
