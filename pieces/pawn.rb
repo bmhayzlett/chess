@@ -2,9 +2,18 @@ require_relative "../piece"
 
 class Pawn < Piece
 
-  def initialize(color)
-    @tag = '♟'
-    super(color)
-
+  def move(position)
+    super(position)
+    @max_move_step = 1
   end
+
+
+  def self.tag
+    '♟'
+  end
+
+  def self.max_steps
+    [2, 1]
+  end
+
 end

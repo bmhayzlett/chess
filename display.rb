@@ -4,6 +4,7 @@ require "io/console"
 class Display
 
 attr_reader :cursor
+attr_accessor :piece_path
 
   MOVE_VECTORS = {
     left: [0, -1],
@@ -15,6 +16,11 @@ attr_reader :cursor
 
   def initialize
     @cursor = [0, 0]
+    @piece_path = []
+  end
+
+  def clear_piece_path
+    @piece_path = []
   end
 
   def render_board(board)
@@ -33,15 +39,16 @@ attr_reader :cursor
   def render_row(row, row_num)
     render_string = ""
     row.each_with_index do |piece, col_num|
-      graphic = piece.to_s + " "
 
+      graphic = piece.to_s + " "
       if (row_num + col_num).even?
         graphic = graphic.on_cyan
       else
         graphic = graphic.on_red
       end
 
-      if [row_num, col_num] == @cursor
+      pos = [row_num, col_num]
+      if pos == @cursor || @piece_path.any? { |path| path == pos }
         graphic = graphic.on_yellow
       end
 
