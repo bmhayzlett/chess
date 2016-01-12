@@ -4,12 +4,16 @@ require_relative "board"
 
 class GamePlay
 
+  attr_reader :turn
+
   extend CursorInput
 
   def initialize(board = Board.new)
     @board = board
     @display = Display.new
     @won = false
+    @selected_piece = nil
+    @turn = :white
   end
 
   def run
@@ -31,14 +35,25 @@ class GamePlay
       @won = true
     when :enter
       position = @display.cursor
-      inspect_piece(position)
+      handle_enter(position)
     when :left, :right, :up, :down
       @display.move_cursor(command)
       nil
     else
       puts command
     end
-end
+  end
 
+  def swap_player
+    @turn = (@turn == :black) ? :white : :black
+  end
+
+  def handle_enter(position)
+    inspect_piece(position)
+    if @selected_piece.nil?
+    else
+      #selected_piece - check valid moves for selected_piece
+    end
+  end
 
 end
