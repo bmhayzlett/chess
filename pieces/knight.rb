@@ -6,8 +6,12 @@ class Knight < Piece
     '♞'
   end
 
-  def self.max_step
-    1
+  def self.max_steps
+    [1,1]
+  end
+
+  def self.directions
+    [:k]
   end
 
 end

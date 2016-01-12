@@ -16,4 +16,14 @@ class Pawn < Piece
     [2, 1]
   end
 
+  def self.directions
+    @color == :black ? [:bpm] : [:wpm]
+  end
+
+  def self.capture_directions
+    @color == :black ? [:bpc] : [:wpc]
+    puts @color 
+  end
+
+
 end

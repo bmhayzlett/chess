@@ -10,4 +10,8 @@ class Bishop < Piece
     [7, 7]
   end
 
+  def self.directions
+    [:x]
+  end
+
 end

@@ -4,7 +4,8 @@ require_relative "board"
 
 class GamePlay
 
-  attr_reader :turn
+  attr_reader :turn, :board
+  attr_accessor :won
 
   extend CursorInput
 

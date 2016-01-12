@@ -6,8 +6,13 @@ class Rook < Piece
     '♜'
   end
 
-  def self.max_step
+  def self.max_steps
     [7, 7]
   end
+
+  def self.directions
+    [:+]
+  end
+
 
 end
