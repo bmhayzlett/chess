@@ -1,16 +1,18 @@
 require_relative "pieces_manifest"
 
 class Board
-  attr_reader :grid
+  attr_accessor :grid
 
-  PIECES = [Rook,
-            Knight,
-            Bishop,
-            King,
-            Queen,
-            Bishop,
-            Knight,
-            Rook]
+  PIECES = [
+    Rook,
+    Knight,
+    Bishop,
+    King,
+    Queen,
+    Bishop,
+    Knight,
+    Rook
+  ]
 
 
 
@@ -31,6 +33,17 @@ class Board
     @grid[6].each_index { |i | grid[6][i] = Pawn.new(:white, [6, i]) }
 
 
+  end
+
+  def deep_dup_board
+    new_board = Board.new
+    new_grid = @grid.map do |row|
+      row.map do |el|
+        el.deep_dup
+      end
+    end
+    new_board.grid = new_grid
+    new_board
   end
 
   def [](pos)

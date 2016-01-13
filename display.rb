@@ -13,7 +13,6 @@ attr_accessor :highlights, :messages
     down: [1, 0]
   }
 
-
   def initialize
     @cursor = [0, 0]
     @highlights = []
@@ -30,6 +29,7 @@ attr_accessor :highlights, :messages
 
   def render_board(board)
     render_string = ""
+
     board.grid.each_with_index do |row, row_num|
       render_string << render_row(row, row_num)
       render_string << "\n"
@@ -44,8 +44,8 @@ attr_accessor :highlights, :messages
 
   def render_row(row, row_num)
     render_string = ""
-    row.each_with_index do |piece, col_num|
 
+    row.each_with_index do |piece, col_num|
       graphic = piece.to_s + " "
       if (row_num + col_num).even?
         graphic = graphic.on_cyan
@@ -61,8 +61,6 @@ attr_accessor :highlights, :messages
       if pos == @cursor
         graphic = graphic.on_green
       end
-
-
 
       render_string << graphic
     end

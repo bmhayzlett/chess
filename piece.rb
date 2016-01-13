@@ -16,22 +16,46 @@ class Piece
   def initialize(color, position = nil)
     @position = position
     @color = color
-    if @color == :white
-      @tag = @tag.white
-    else
-      @tag = @tag.black
-    end
+    @tag = (@color == :black) ? @tag.black : @tag.white
     @max_move_step, @max_capture_step = @max_steps
   end
-
 
   def to_s
     @tag
   end
 
+  def deep_dup
+    piece_class = self.class
+    new_position = @position.dup unless position.nil?
+    piece_class.new(@color, new_position)
+  end
 
-  def move(position)
+  def entering_check?(position, board)
+    test_board = board.deep_dup_board
+    test_piece = test_board[@position]
+    test_piece.move(position, test_board)
+
+    enemy_moves = []
+    test_board.grid.each do |row|
+      row.each do |piece|
+        if piece.color != @color
+          enemy_moves.concat(piece.check_for_move(test_board, true))
+        end
+      end
+    end
+
+    enemy_moves.uniq.any? do |pos|
+      p pos
+      test_board[pos].is_a?(King) unless pos.empty?
+    end
+  end
+
+
+  def move(position, board)
+    previous_position = @position
     @position = position
+    board[previous_position]= NullPiece.new
+    board[position] = self
   end
 
   def same_color?(position, board)
@@ -43,17 +67,8 @@ class Piece
     row.between?(0,7) && col.between?(0,7)
   end
 
-  def available_moves(board)
-
-    #return array of positions of valid moves
-  end
-
   def check_path(direction, board, capture)
-    if capture == false
-      steps = @max_move_step
-    else
-      steps = @max_capture_step
-    end
+    steps = capture ? @max_capture_step : @max_move_step
 
     viable_moves = []
     delta_row, delta_col = direction
@@ -74,15 +89,11 @@ class Piece
         else
           viable_moves << current_position unless capture
         end
-
       end
     end
 
     viable_moves
   end
-
-
-
 
   def check_for_move(board, capture)
     if capture
@@ -102,13 +113,6 @@ class Piece
       viable_moves.concat(check_path(direction, board, capture))
     end
 
-
-
     viable_moves
-
   end
-
-
-
-
 end

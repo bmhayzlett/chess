@@ -11,11 +11,12 @@ class GamePlay
 
   def initialize
     @board = Board.new
-    @board.pop_board
     @display = Display.new
     @won = false
     @selected_piece = nil
     @turn = :white
+
+    @board.pop_board
   end
 
   def run
@@ -41,7 +42,6 @@ class GamePlay
       handle_enter(position)
     when :left, :right, :up, :down
       @display.move_cursor(command)
-      nil
     else
       puts command
     end
@@ -57,14 +57,12 @@ class GamePlay
 
 
   def handle_enter(position)
-    inspect_piece(position)
     if @selected_piece.nil?
       select_piece(position)
     elsif @selected_piece == @board[position]
       deselect_piece
     else
       attempt_to_move(position)
-
     end
   end
 
@@ -75,11 +73,11 @@ class GamePlay
   def select_piece(position)
     if valid_selection?(position)
       @selected_piece = @board[position]
-      @display.add_highlights([position])
+
       captures = @board[position].check_for_move(@board, true)
       moves = @board[position].check_for_move(@board, false)
-      @display.add_highlights(captures)
-      @display.add_highlights(moves)
+
+      @display.add_highlights([position] + captures + moves)
     end
   end
 
@@ -94,17 +92,14 @@ class GamePlay
     captures = @board[previous_position].check_for_move(@board, true)
     moves = @board[previous_position].check_for_move(@board, false)
 
-    valid_moves = captures.concat(moves).uniq
+    valid_moves = captures.concat(moves)
+    valid_moves.reject! { |move| @selected_piece.entering_check?(move, @board)}
     if valid_moves.any? { |move| move == position }
-      @selected_piece.move(position)
-      @board[previous_position]= NullPiece.new
-      #selected_piece - check valid moves for selected_piece
-      #make_move if valid
-      @board[position] = @selected_piece
+      @selected_piece.move(position, board)
+
       swap_player
     end
-    @selected_piece = nil
-    @display.clear_highlights
-  end
 
+    deselect_piece
+  end
 end
