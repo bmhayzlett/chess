@@ -3,6 +3,7 @@ require_relative "../piece"
 class Pawn < Piece
 
   def initialize(color, position = nil)
+    @color = color
     @tag = '♟'
     @max_steps = [2, 1]
     @directions = (@color == :black) ? [:bpm] : [:wpm]

@@ -4,7 +4,7 @@ require "io/console"
 class Display
 
 attr_reader :cursor
-attr_accessor :piece_path
+attr_accessor :highlights, :messages
 
   MOVE_VECTORS = {
     left: [0, -1],
@@ -16,11 +16,16 @@ attr_accessor :piece_path
 
   def initialize
     @cursor = [0, 0]
-    @piece_path = []
+    @highlights = []
+    @messages = ""
   end
 
-  def clear_piece_path
-    @piece_path = []
+  def add_highlights(hl)
+    @highlights.concat(hl).uniq!
+  end
+
+  def clear_highlights
+    @highlights = []
   end
 
   def render_board(board)
@@ -30,8 +35,9 @@ attr_accessor :piece_path
       render_string << "\n"
     end
 
-    # system("clear")
+    system("clear")
     puts "WELCOME TO CHESS"
+    puts @messages
     puts render_string
     puts "Arrow keys, WASD to move, space or enter to confirm."
   end
@@ -48,9 +54,15 @@ attr_accessor :piece_path
       end
 
       pos = [row_num, col_num]
-      if pos == @cursor || @piece_path.any? { |path| path == pos }
+      if @highlights.any? { |path| path == pos }
         graphic = graphic.on_yellow
       end
+
+      if pos == @cursor
+        graphic = graphic.on_green
+      end
+
+
 
       render_string << graphic
     end

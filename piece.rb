@@ -31,7 +31,6 @@ class Piece
 
 
   def move(position)
-
     @position = position
   end
 

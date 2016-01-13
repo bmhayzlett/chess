@@ -20,6 +20,7 @@ class GamePlay
 
   def run
     until @won
+      display_turn
       @display.render_board(@board)
       input = self.class.get_input
       handle_command(input)
@@ -50,6 +51,11 @@ class GamePlay
     @turn = (@turn == :black) ? :white : :black
   end
 
+  def display_turn
+    @display.messages = "#{@turn.to_s}'s turn"
+  end
+
+
   def handle_enter(position)
     inspect_piece(position)
     if @selected_piece.nil?
@@ -58,7 +64,7 @@ class GamePlay
       deselect_piece
     else
       attempt_to_move(position)
-      swap_player
+
     end
   end
 
@@ -69,24 +75,36 @@ class GamePlay
   def select_piece(position)
     if valid_selection?(position)
       @selected_piece = @board[position]
-      @display.piece_path << position
+      @display.add_highlights([position])
+      captures = @board[position].check_for_move(@board, true)
+      moves = @board[position].check_for_move(@board, false)
+      @display.add_highlights(captures)
+      @display.add_highlights(moves)
     end
   end
 
   def deselect_piece
     @selected_piece = nil
-    @display.clear_piece_path
+    @display.clear_highlights
   end
 
   def attempt_to_move(position)
     previous_position = @selected_piece.position
-    @selected_piece.move(position)
-    @board[previous_position]= NullPiece.new
-    #selected_piece - check valid moves for selected_piece
-    #make_move if valid
-    @board[position] = @selected_piece
+
+    captures = @board[previous_position].check_for_move(@board, true)
+    moves = @board[previous_position].check_for_move(@board, false)
+
+    valid_moves = captures.concat(moves).uniq
+    if valid_moves.any? { |move| move == position }
+      @selected_piece.move(position)
+      @board[previous_position]= NullPiece.new
+      #selected_piece - check valid moves for selected_piece
+      #make_move if valid
+      @board[position] = @selected_piece
+      swap_player
+    end
     @selected_piece = nil
-    @display.clear_piece_path
+    @display.clear_highlights
   end
 
 end
